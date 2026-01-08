@@ -66,7 +66,10 @@ async function getFilms(searchValue) {
         `https://www.omdbapi.com/?s=${searchValue}&apikey=c8fedda4`
     )
     const data = await res.json()
-
+    if (data.Response === 'False') {
+        content.innerHTML = `<p>Unable to find what you’re looking for. Please try another search.</p>`
+        return
+    }
     const filmPromises = data.Search.map(film =>
         fetch(
             `https://www.omdbapi.com/?i=${film.imdbID}&apikey=c8fedda4`
